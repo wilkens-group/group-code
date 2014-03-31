@@ -18,27 +18,24 @@ text_file = args[1]
 
 # Dictionary to store wordcounts
 words = {}
+# Set up punctuation removal
+replace_punctuation = string.maketrans(string.punctuation, ' '*len(string.punctuation))
 
 # Read the file and count occurrences of each unique word
 with open(text_file, 'r') as text:
     # Count words, one line at a time
     for line in text:
         line = line.lower()
-        line = line.replace('-', ' ') # Split on hyphens
-        line = line.replace(',', ' ') # Get rid of extraneous commas
-        line = line.replace('—', ' ') # Split on em-dashes, too
-        # create a list of words
-        tempwords = line.split(None)
+        line = line.translate(replace_punctuation)
+        tempwords = line.split(None)    # create a list of words
         for i in tempwords:
-            i = i.strip(string.punctuation)
-            if i != '': # No empty strings, damnit!
+            i = i.strip()               # Get rid of extra space
+            if i != '':                 # No empty strings, damnit!
                 if i in words:
                     words[i] += 1
                 else:
                     words[i] = 1
 
-print "WORDCOUNTS,WEIGHT" # DfR-style header
-#for i in words.keys():
-#    print i, words[i]
+print "WORDCOUNTS,WEIGHT"               # DfR-style header
 for i in sorted(words, key=words.get, reverse=True):
     print str(i)+','+str(words[i])

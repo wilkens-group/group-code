@@ -25,6 +25,7 @@ with open(text_file, 'r') as text:
     for line in text:
         line = line.lower()
         line = line.replace('-', ' ') # Split on hyphens
+        line = line.replace(',', ' ') # Get rid of extraneous commas
         line = line.replace('—', ' ') # Split on em-dashes, too
         # create a list of words
         tempwords = line.split(None)
